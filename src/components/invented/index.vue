@@ -1,9 +1,12 @@
 <template>
   <div class="list-view" @scroll="handleScroll">
     <!-- list-view-phantom 撑开容器，以便出现滚动条 -->
-    <div class="list-view-phantom" :style="{
-         height: contentHeight
-      }"></div>
+    <div
+      class="list-view-phantom"
+      :style="{
+        height: contentHeight
+      }"
+    ></div>
     <div ref="content" class="list-view-content">
       <div
         class="list-view-item"
@@ -12,7 +15,9 @@
         }"
         v-for="item in visibleData"
         :key="item.value"
-      >{{ item.value }}</div>
+      >
+        {{ item.value }}
+      </div>
     </div>
   </div>
 </template>
@@ -34,24 +39,63 @@ export default {
   },
   data() {
     return {
-      visibleData: [] // 可视的数据
+      visibleData: [], // 可视的数据
+      itemSizeGetter: Function
     };
   },
   computed: {
     contentHeight() {
-      return this.data.length * this.itemHeight + "px";
+      const { data, itemSizeGetter } = this;
+      console.log(itemSizeGetter);
+      let total = 0;
+      for (let i = 0, j = data.length; i < j; i++) {
+        total += itemSizeGetter.call(null, data[i], i);
+      }
+      return total;
     }
   },
   methods: {
+    findNearestItemIndex(scrollTop) {
+      const { data, itemSizeGetter } = this;
+      let total = 0;
+      for (let i = 0, j = data.length; i < j; i++) {
+        const size = itemSizeGetter.call(null, data[i], i);
+        total += size;
+        if (total >= scrollTop || i === j - 1) {
+          return i;
+        }
+      }
+      return 0;
+    },
+    getItemSizeAndOffset(index) {
+      const { data, itemSizeGetter } = this;
+      let total = 0;
+      for (let i = 0, j = Math.min(index, data.length - 1); i <= j; i++) {
+        const size = itemSizeGetter.call(null, data[i], i);
+        if (i === j) {
+          return {
+            offset: total,
+            size
+          };
+        }
+        total += size;
+      }
+      return {
+        offset: 0,
+        size: 0
+      };
+    },
     updateVisibleData(scrollTop) {
-      // console.log(1);
       scrollTop = scrollTop || 0;
-      const visibleData = Math.ceil(this.$el.clientHeight / this.itemHeight); // 向上取整
-      const start = Math.floor(scrollTop / this.itemHeight); // 向下取整
-      const end = start + visibleData; // 结束有多少个
-      this.visibleData = this.data.slice(start, end); // slice不会直接触发视图更新，需要赋值
-      this.$refs.content.style.webkitTransform = `translate3d(0, ${start *
-        this.itemHeight}px, 0)`;
+      const start = this.findNearestItemIndex(scrollTop);
+      const end = this.findNearestItemIndex(scrollTop + this.$el.clientHeight);
+      this.visibleData = this.data.slice(
+        start,
+        Math.min(end + 1, this.data.length)
+      );
+      this.$refs.content.style.webkitTransform = `translate3d(0, ${
+        this.getItemSizeAndOffset(start).offset
+      }px, 0)`;
     },
     handleScroll() {
       // console.log("ss");

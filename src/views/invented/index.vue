@@ -1,5 +1,5 @@
 <template>
-  <invented :data='data'></invented>
+  <invented :data="data"></invented>
 </template>
 
 <script>
