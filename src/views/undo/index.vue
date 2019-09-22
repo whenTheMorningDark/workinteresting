@@ -27,6 +27,7 @@ export default {
           rect[key] = rectEnd[key];
         }
       });
+      console.log(rectEnd);
       // rect.animation = animation
       this.rect = rect;
     }
