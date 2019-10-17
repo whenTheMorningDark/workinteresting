@@ -5,11 +5,13 @@
     :style="rectStyle"
   >
     <div class="rb" @mousedown.stop="onMouseDown($event, 'resizing')"></div>
+    <div class="lb" @mousedown.stop="onMouseDown($event, 'resizing')"></div>
   </div>
 </template>
 
 <script>
 // 代码参考 https://github.com/ioslh/undo-redo/blob/master/src/components/Controller.vue
+// https://github.com/mauricius/vue-draggable-resizable/blob/master/src/components/vue-draggable-resizable.vue
 
 export default {
   name: "draggbleItem",
@@ -47,57 +49,43 @@ export default {
       // 鼠标按下的触发
       this.mouseStart = this.mousePosition(e);
       this.reactStart = JSON.parse(JSON.stringify(this.rect));
+      // let oDiv = e.target;
       // console.log(type);
       this.adjustType = type;
       if (this.adjustType === "resizing") {
         this.resizing = true;
+        // console.log(e);
+        // if(e.target.className === "lb"){
+        //   console.log()
+        // }
       } else {
         this.dragging = true;
-        let oDiv = e.target;
+        // let oDiv = e.target;
         if (oDiv.className !== "draggbleItem") {
           return;
         }
-        this.disX = e.clientX - oDiv.offsetLeft;
-        this.disY = e.clientY - oDiv.offsetTop;
+        this.disX = e.clientX - oDiv.offsetLeft; // 求出第一次x的距离
+        this.disY = e.clientY - oDiv.offsetTop; // 求出第一次y的距离
       }
       document.addEventListener("mousemove", this.onMouseMove);
       document.addEventListener("mouseup", this.onMouseup);
     },
     onMouseMove(e) {
-      if (this.resizing) {
-        this.handleResizeMove(e);
-      } else {
-        this.mouseEnd = this.mousePosition(e);
-        const [x, y] = ["x", "y"].map(t =>
-          Math.abs(this.mouseEnd[t] - this.mouseStart[t])
-        );
-        if (x > 2 || y > 2) {
-          let rectEnd = {
-            x: this.mouseEnd.x - this.disX,
-            y: this.mouseEnd.y - this.disY,
-            w: this.reactStart.w,
-            h: this.reactStart.h
-          };
-          this.$emit("onTransformed", rectEnd);
-        }
-      }
-    },
-    // 处理拉伸的情况
-    handleResizeMove(e) {
-      // console.log("resize");
-      this.resizingStart = this.mousePosition(e);
-      // console.log(this.resizingStart);
-      // console.log(this.resizingStart.x - this.mouseStart.x);
+      this.mouseEnd = this.mousePosition(e);
+      console.log(Math.abs(this.mouseEnd.x - this.mouseStart.x));
       const [x, y] = ["x", "y"].map(t =>
-        Math.abs(this.resizingStart[t] - this.mouseStart[t])
+        Math.abs(this.mouseEnd[t] - this.mouseStart[t])
       );
-      console.log(this.reactStart);
       if (x > 2 || y > 2) {
         let rectEnd = {
-          x: this.reactStart.x,
-          y: this.reactStart.y,
-          w: this.reactStart.w + this.resizingStart.x - this.mouseStart.x,
-          h: this.reactStart.h + this.resizingStart.y - this.mouseStart.y
+          x: this.dragging ? this.mouseEnd.x - this.disX : this.reactStart.x,
+          y: this.dragging ? this.mouseEnd.y - this.disY : this.reactStart.y,
+          w: this.dragging
+            ? this.reactStart.w
+            : this.reactStart.w + Math.abs(this.mouseEnd.x - this.mouseStart.x),
+          h: this.dragging
+            ? this.reactStart.h
+            : this.reactStart.h + this.mouseEnd.y - this.mouseStart.y
         };
         this.$emit("onTransformed", rectEnd);
       }
@@ -105,6 +93,7 @@ export default {
     onMouseup() {
       this.resizing = false;
       this.dragging = false;
+      this.$emit("record");
       document.removeEventListener("mousemove", this.onMouseMove);
       document.removeEventListener("mouseup", this.onMouseUp);
     },
@@ -126,7 +115,7 @@ export default {
 
 <style lang="scss" scoped>
 .draggbleItem {
-  position: relative;
+  position: absolute;
   border: 1px solid red;
   cursor: move;
   .rb {
@@ -135,6 +124,14 @@ export default {
     position: absolute;
     bottom: 0;
     right: 0;
+    background: red;
+  }
+  .lb {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
     background: red;
   }
 }
