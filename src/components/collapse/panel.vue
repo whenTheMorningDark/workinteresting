@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     toggle() {
-      // console.log("toogle");
+      // console.log(this);
       this.$parent.toggle({
         name: this.name || this.index,
         isActive: this.isActive

@@ -22,6 +22,17 @@
             }
         }
 
+        .ka-collapse-content {
+            color: #515a6e;
+            padding: 0 16px;
+            background-color: #fff;
+
+            >.ka-collapse-content-box {
+                padding-top: 16px;
+                padding-bottom: 16px;
+            }
+        }
+
         &:first-child {
             border-top: 0;
         }

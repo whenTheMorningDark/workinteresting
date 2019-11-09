@@ -44,6 +44,7 @@ export default {
       this.$children.forEach((child, index) => {
         const name = child.name || index.toString(); // toString 1=>"1"整数转换成为字符串
         child.isActive = activeKey.indexOf(name) > -1; // 给选中的元素赋值活跃状态
+        // console.log(child);
         child.index = index;
       });
     },
@@ -72,6 +73,7 @@ export default {
         newActivekey = activeKey;
       }
       this.currentValue = newActivekey;
+      // console.log(data);
       this.$emit("input", newActivekey);
       this.$emit("on-change", newActivekey);
     },
@@ -96,9 +98,11 @@ export default {
   },
   watch: {
     value(val) {
+      console.log(val);
       this.currentValue = val;
     },
     currentValue() {
+      console.log("currentValue");
       this.setActive();
     }
   }

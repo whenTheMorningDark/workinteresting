@@ -1,8 +1,7 @@
 <template>
   <div class="home">
-    <!-- <Icon type="icon-jiantouxia"></Icon> -->
-    <Collapse v-model="value1">
-      <Panel name="1" class="ka-collapse-item-active">
+    <Collapse v-model="value1" @on-change="changFun">
+      <Panel name="1">
         <span>标题1</span>
         <p slot="content">标题1的内容</p>
       </Panel>
@@ -11,12 +10,12 @@
         <p slot="content">标题2的内容</p>
       </Panel>
       <Panel name="3">
-        <span>标题2</span>
-        <p slot="content">标题2的内容</p>
+        <span>标题3</span>
+        <p slot="content">标题3的内容</p>
       </Panel>
       <Panel name="4">
-        <span>标题2</span>
-        <p slot="content">标题2的内容</p>
+        <span>标题4</span>
+        <p slot="content">标题4的内容</p>
       </Panel>
     </Collapse>
   </div>
@@ -27,8 +26,19 @@ export default {
   components: {},
   data() {
     return {
-      value1: "1"
+      value1: "1",
+      list: [
+        { name: "1", title: "标题1", content: "标题112312321的内容" },
+        { name: "2", title: "标题2", content: "标题2的内容" },
+        { name: "3", title: "标题3", content: "标题3的内容" },
+        { name: "4", title: "标题4", content: "标题4的内容" }
+      ]
     };
+  },
+  methods: {
+    changFun(val) {
+      console.log(val);
+    }
   }
 };
 </script>
