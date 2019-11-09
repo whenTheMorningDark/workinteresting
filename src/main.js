@@ -4,9 +4,18 @@ import router from './router'
 import store from './store'
 import utils from './utils/utils'
 import Button from './components/button'
+import List from './components/list'
+import Icon from './components/icon'
+import Collapse from './components/collapse'
+import "./styles/index.scss"
 Vue.prototype.$utils = utils
 Vue.config.productionTip = false
 Vue.component('Button', Button)
+Vue.component('List', List)
+Vue.component('ListItem', List.Item)
+Vue.component('Icon', Icon)
+Vue.component('Collapse', Collapse)
+Vue.component('Panel', Collapse.Panel)
 new Vue({
   router,
   store,
