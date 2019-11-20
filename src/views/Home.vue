@@ -1,10 +1,11 @@
 <template>
   <div class="home">
-    <Button type="primary"
-            @click="handleClick"
-            :loading="isLoading">
-      按钮
-    </Button>
+    <Dropdown>
+      <Button type="primary">
+        下拉框
+        <Icon type="icondown"></Icon>
+      </Button>
+    </Dropdown>
   </div>
 </template>
 <script>

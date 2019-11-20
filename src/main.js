@@ -7,6 +7,7 @@ import Button from './components/button'
 import List from './components/list'
 import Icon from './components/icon'
 import Collapse from './components/collapse'
+import Dropdown from "./components/dropdown"
 import "./styles/index.scss"
 Vue.prototype.$utils = utils
 Vue.config.productionTip = false
@@ -16,6 +17,7 @@ Vue.component('ListItem', List.Item)
 Vue.component('Icon', Icon)
 Vue.component('Collapse', Collapse)
 Vue.component('Panel', Collapse.Panel)
+Vue.component('Dropdown', Dropdown)
 new Vue({
   router,
   store,

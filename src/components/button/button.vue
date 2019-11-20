@@ -1,10 +1,10 @@
 <template>
   <button :class="classes"
-          :disabled="cIsDisable"
+          :disabled="isDisable"
           @click="handleClick">
     <Icon type="iconloading"
           class="ka-loading"
-          v-if="cIsDisable"></Icon>
+          v-if="loading"></Icon>
     <span>
       <slot></slot>
     </span>
@@ -31,11 +31,7 @@ export default {
   },
   computed: {
     classes () {
-      return [`${prefixCls}`, `${prefixCls}-${this.type}`, { [`${prefixCls}-disabled`]: this.cIsDisable }];
-    },
-    // 是否按钮可以点击
-    cIsDisable () {
-      return this.isDisable || this.loading;
+      return [`${prefixCls}`, `${prefixCls}-${this.type}`, { [`${prefixCls}-loading`]: this.loading }];
     }
   },
   methods: {

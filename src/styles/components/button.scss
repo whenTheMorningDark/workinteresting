@@ -8,6 +8,11 @@
   }
 }
 
+.ka-btn[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .ka-btn {
   outline: none;
   line-height: 1.5;
@@ -28,16 +33,44 @@
   border-radius: 4px;
   transition: color .2s linear, background-color .2s linear, border .2s linear, box-shadow .2s linear;
   color: #515a6e;
-  background-color: #fff;
-  border-color: #dcdee2;
+  background-color: $fontColor;
+  border-color: $borderColor;
 
-  &.ka-btn-primary {
-    color: #fff;
-    background-color: #2d8cf0;
-    border-color: #2d8cf0;
+  +.ka-btn {
+    margin-left: 10px;
   }
 
-  &.ka-btn-disabled {
+  &.ka-btn-primary {
+    color: $fontColor;
+    background-color: $primary;
+    border-color: $primary;
+  }
+
+  &.ka-btn-success {
+    color: $fontColor;
+    background-color: $success;
+    border-color: $success;
+  }
+
+  &.ka-btn-info {
+    color: $fontColor;
+    background-color: $info;
+    border-color: $info;
+  }
+
+  &.ka-btn-warning {
+    color: $fontColor;
+    background-color: $warning;
+    border-color: $warning;
+  }
+
+  &.ka-btn-danger {
+    color: $fontColor;
+    background-color: $danger;
+    border-color: $danger;
+  }
+
+  &.ka-btn-loading {
     // background: red;
     // filter: blur(1);
     cursor: not-allowed;
