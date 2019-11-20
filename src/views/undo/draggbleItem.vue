@@ -1,11 +1,11 @@
 <template>
-  <div
-    class="draggbleItem"
-    @mousedown.stop="onMouseDown($event, 'move')"
-    :style="rectStyle"
-  >
-    <div class="rb" @mousedown.stop="onMouseDown($event, 'resizing')"></div>
-    <div class="lb" @mousedown.stop="onMouseDown($event, 'resizing')"></div>
+  <div class="draggbleItem"
+       @mousedown.stop="onMouseDown($event, 'move')"
+       :style="rectStyle">
+    <div class="rb"
+         @mousedown.stop="onMouseDown($event, 'resizing')"></div>
+    <div class="lb"
+         @mousedown.stop="onMouseDown($event, 'resizing')"></div>
   </div>
 </template>
 
@@ -18,14 +18,14 @@ export default {
   props: {
     rect: Object
   },
-  data() {
+  data () {
     return {
       resizing: false,
       dragging: false
     };
   },
   computed: {
-    rectStyle() {
+    rectStyle () {
       const { x, y, w, h } = this.rect;
       const style = {
         left: `${x}px`,
@@ -37,7 +37,7 @@ export default {
     }
   },
   methods: {
-    mousePosition(e) {
+    mousePosition (e) {
       // 动态计算鼠标的位置
       const { pageX, pageY } = e;
       return {
@@ -45,7 +45,7 @@ export default {
         y: pageY
       };
     },
-    onMouseDown(e, type) {
+    onMouseDown (e, type) {
       // 鼠标按下的触发
       this.mouseStart = this.mousePosition(e);
       this.reactStart = JSON.parse(JSON.stringify(this.rect));
@@ -60,7 +60,7 @@ export default {
         // }
       } else {
         this.dragging = true;
-        // let oDiv = e.target;
+        let oDiv = e.target;
         if (oDiv.className !== "draggbleItem") {
           return;
         }
@@ -70,7 +70,7 @@ export default {
       document.addEventListener("mousemove", this.onMouseMove);
       document.addEventListener("mouseup", this.onMouseup);
     },
-    onMouseMove(e) {
+    onMouseMove (e) {
       this.mouseEnd = this.mousePosition(e);
       console.log(Math.abs(this.mouseEnd.x - this.mouseStart.x));
       const [x, y] = ["x", "y"].map(t =>
@@ -90,23 +90,23 @@ export default {
         this.$emit("onTransformed", rectEnd);
       }
     },
-    onMouseup() {
+    onMouseup () {
       this.resizing = false;
       this.dragging = false;
       this.$emit("record");
       document.removeEventListener("mousemove", this.onMouseMove);
       document.removeEventListener("mouseup", this.onMouseUp);
     },
-    preventDrag(e) {
+    preventDrag (e) {
       e.stopPropagation();
       e.preventDefault();
     }
   },
-  mounted() {
+  mounted () {
     document.addEventListener("drag", this.preventDrag);
     document.addEventListener("dragstart", this.preventDrag);
   },
-  beforeDestroy() {
+  beforeDestroy () {
     document.removeEventListener("drag", this.preventDrag);
     document.removeEventListener("dragstart", this.preventDrag);
   }

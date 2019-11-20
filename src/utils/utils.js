@@ -32,6 +32,32 @@ const utils = {
       }
     }
     return false
+  },
+  // 把图片转换成为base64
+  /**
+   * element-uploader组件中使用
+   * onchangeFun (file, fileList) { // 上传图片后，获取图片路径
+      this.getBase64(file.raw).then(res => {
+        //doSomeThings
+      });
+    }
+   * 
+   */
+  getBase64(file) {
+    return new Promise(function (resolve, reject) {
+      let reader = new FileReader();
+      let imgResult = "";
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        imgResult = reader.result;
+      };
+      reader.onerror = function (error) {
+        reject(error);
+      };
+      reader.onloadend = function () {
+        resolve(imgResult);
+      };
+    });
   }
 }
 export default utils
