@@ -1,30 +1,17 @@
 <template>
   <div class="home">
-    <Collapse v-model="value1" @on-change="changFun">
-      <Panel name="1">
-        <span>标题1</span>
-        <p slot="content">标题1的内容</p>
-      </Panel>
-      <Panel name="2">
-        <span>标题2</span>
-        <p slot="content">标题2的内容</p>
-      </Panel>
-      <Panel name="3">
-        <span>标题3</span>
-        <p slot="content">标题3的内容</p>
-      </Panel>
-      <Panel name="4">
-        <span>标题4</span>
-        <p slot="content">标题4的内容</p>
-      </Panel>
-    </Collapse>
+    <Button type="primary"
+            @click="handleClick"
+            :loading="isLoading">
+      按钮
+    </Button>
   </div>
 </template>
 <script>
 export default {
   name: "home",
   components: {},
-  data() {
+  data () {
     return {
       value1: "1",
       list: [
@@ -32,12 +19,19 @@ export default {
         { name: "2", title: "标题2", content: "标题2的内容" },
         { name: "3", title: "标题3", content: "标题3的内容" },
         { name: "4", title: "标题4", content: "标题4的内容" }
-      ]
+      ],
+      isLoading: false
     };
   },
   methods: {
-    changFun(val) {
+    changFun (val) {
       console.log(val);
+    },
+    handleClick () {
+      this.isLoading = true;
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 2000)
     }
   }
 };

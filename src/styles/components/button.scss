@@ -1,0 +1,50 @@
+@keyframes ka-loading-loop {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ka-btn {
+  outline: none;
+  line-height: 1.5;
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  user-select: none;
+  height: 32px;
+  padding: 0 15px;
+  font-size: 14px;
+  border-radius: 4px;
+  transition: color .2s linear, background-color .2s linear, border .2s linear, box-shadow .2s linear;
+  color: #515a6e;
+  background-color: #fff;
+  border-color: #dcdee2;
+
+  &.ka-btn-primary {
+    color: #fff;
+    background-color: #2d8cf0;
+    border-color: #2d8cf0;
+  }
+
+  &.ka-btn-disabled {
+    // background: red;
+    // filter: blur(1);
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .ka-loading {
+    animation: ka-loading-loop 1s linear infinite;
+  }
+}
