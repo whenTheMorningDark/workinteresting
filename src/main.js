@@ -18,6 +18,8 @@ Vue.component('Icon', Icon)
 Vue.component('Collapse', Collapse)
 Vue.component('Panel', Collapse.Panel)
 Vue.component('Dropdown', Dropdown)
+Vue.component('DropdownMenu', Dropdown.DropdownMenu)
+Vue.component('DropdownItem', Dropdown.DropItem)
 new Vue({
   router,
   store,

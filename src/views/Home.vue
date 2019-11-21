@@ -1,10 +1,18 @@
 <template>
   <div class="home">
-    <Dropdown>
+    <Dropdown @on-click="handleClick">
       <Button type="primary">
         下拉框
         <Icon type="icondown"></Icon>
       </Button>
+      <DropdownMenu slot="list">
+        <DropdownItem name="1">你好</DropdownItem>
+        <DropdownItem name="2"
+                      disabled>你好</DropdownItem>
+        <DropdownItem name="3"
+                      divied>你好</DropdownItem>
+        <DropdownItem name="4">你好</DropdownItem>
+      </DropdownMenu>
     </Dropdown>
   </div>
 </template>
@@ -28,11 +36,8 @@ export default {
     changFun (val) {
       console.log(val);
     },
-    handleClick () {
-      this.isLoading = true;
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 2000)
+    handleClick (name) {
+      console.log(name)
     }
   }
 };

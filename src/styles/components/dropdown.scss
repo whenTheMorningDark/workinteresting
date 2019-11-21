@@ -4,4 +4,43 @@
   .ka-dropdown-rel {
     position: relative;
   }
+
+  .ka-select-dropdown {
+    overflow: hidden;
+    transform-origin: center top
+  }
+
+  .ka-dropdown-menu {
+    min-width: 100px;
+
+    .ka-dropdown-item {
+      margin: 0;
+      line-height: normal;
+      padding: 7px 16px;
+      clear: both;
+      color: #515a6e;
+      font-size: 14px !important;
+      white-space: nowrap;
+      list-style: none;
+      cursor: pointer;
+      transition: background .2s ease-in-out;
+
+      &.ka-dropdown-item-disabled {
+        color: #c5c8ce;
+        cursor: not-allowed;
+
+        &:hover {
+          background: #ffffff !important;
+        }
+      }
+
+      &.ka-dropdown-item-divied {
+        border-bottom: 1px solid #dddddd;
+      }
+
+      &:hover {
+        background: #dddddd;
+      }
+    }
+  }
 }

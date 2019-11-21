@@ -6,7 +6,9 @@
       <slot></slot>
     </div>
     <Drop v-show="currentVisible"
-          ref="drop"></Drop>
+          ref="drop">
+      <slot name="list"></slot>
+    </Drop>
   </div>
 </template>
 

@@ -58,6 +58,23 @@ const utils = {
         resolve(imgResult);
       };
     });
+  },
+  // 向上寻找父组件
+  findComponentUpward(context, componentName, componentNames) {
+    if (typeof componentName === "string") {
+      componentNames = [componentName];
+    } else {
+      componentNames = componentName;
+    }
+    let parent = context.$parent; // 找到这个组件的父元素
+    let name = parent.$options.name; //找到父元素的name值
+    while (parent && (!name || componentNames.indexOf(name) < 0)) {
+      parent = parent.$parent
+      if (parent) {
+        name = parent.$options.name;
+      }
+    }
+    return parent;
   }
 }
 export default utils
