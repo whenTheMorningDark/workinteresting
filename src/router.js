@@ -26,6 +26,11 @@ export default new Router({
       path: '/undo',
       name: 'undo',
       component: () => import('./views/undo')
-    }
+    },
+    {
+      path: '/mxHome',
+      name: 'mxHome',
+      component: () => import('./views/mxGraph')
+    },
   ]
 })

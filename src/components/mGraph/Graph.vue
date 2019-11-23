@@ -31,6 +31,7 @@ export default {
       this.graph = new mxGraph(this.$refs.container);
       this.$refs.container.style.background = "url(" + require("./images/grid.gif") + ")";
       this.graph.setConnectable(true); // 设置可以连线
+      this.graph.setCellsCloneable(false);// 禁止ctrl生成元素
       this.createData()
     },
     // 初始化graphData数据
