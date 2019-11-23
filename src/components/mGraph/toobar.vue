@@ -24,9 +24,9 @@ export default {
   data () {
     return {
       defaltIcon: [
-        { src: "icondelete" },
-        { src: "iconbig" },
-        { src: "iconsuoxiao" }
+        { src: "icondelete", type: "delete" },
+        { src: "iconbig", type: "big" },
+        { src: "iconsuoxiao", type: "small" }
       ]
     }
   },

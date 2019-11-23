@@ -14,7 +14,9 @@ export default {
       isLoading: false,
       graphData: [
         { type: "start", to: [], value: "hello", options: { x: 50, y: 120, width: 120, height: 60, style: "" } },
-        { type: "end", to: [], value: "world", options: { x: 350, y: 120, width: 120, height: 60, style: "" } }
+        { type: "end", to: [], value: "world", options: { x: 350, y: 120, width: 120, height: 60, style: "" } },
+        { type: "action", to: [], value: "world", options: { x: 350, y: 320, width: 120, height: 60, style: "" } },
+        { type: "desicion", to: [], value: "world", options: { x: 350, y: 220, width: 120, height: 60, style: "" } }
       ]
     };
   },
@@ -25,11 +27,11 @@ export default {
     },
     connect (options) {
       console.log(options);
-      const { source, target } = options;
-      // 在业务组件中做连线的关系的映射
-      let sData = this.graphData.find((v) => v.id === source.id);
-      let tData = this.graphData.find((v) => v.id === target.id);
-      sData.to.push(tData.id); // 用to来作为连线关系的标识
+      // const { source, target } = options;
+      // // 在业务组件中做连线的关系的映射
+      // let sData = this.graphData.find((v) => v.id === source.id);
+      // let tData = this.graphData.find((v) => v.id === target.id);
+      // sData.to.push(tData.id); // 用to来作为连线关系的标识
       console.log(this.graphData);
     }
   }

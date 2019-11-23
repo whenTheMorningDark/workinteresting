@@ -32,6 +32,7 @@ export default {
       this.$refs.container.style.background = "url(" + require("./images/grid.gif") + ")";
       this.graph.setConnectable(true); // 设置可以连线
       this.graph.setCellsCloneable(false);// 禁止ctrl生成元素
+      this.graph.setAllowDanglingEdges(false);// 不可以随意移动edge
       this.createData()
     },
     // 初始化graphData数据
@@ -90,16 +91,50 @@ export default {
         this.$emit("connect", { edge, source, target });
       })
     },
+    // 监听cell删除事件
+    removeEvent () {
+      this.graph.addListener(mxEvent.CELLS_REMOVED, (sender, evt) => {
+        // console.log(sender);
+        // console.log(evt);
+        let cell = evt.properties.cells;
+        // console.log(cell);
+        this.$emit("delEvent", cell);
+      });
+    },
     // 工具方法
     findCell (id) {
       const cells = this.graph.getChildVertices(this.graph.getDefaultParent()); // 获取所有的图形
       let cell = cells.find((v) => v.id === id);
       return cell;
+    },
+    // 删除图形的方法,包括cell和edge
+    removeFun (cell) {
+      this.graph.removeCells([cell], true);
+    },
+    // 获取选中的元素
+    getSelectionCells () {
+      return this.graph.getSelectionCells();
+    },
+    // 删除选中的图形
+    deleteSelect () {
+      let select = this.getSelectionCells();
+      console.log(select);
+      this.graph.removeCells(select, true)
+      // this.removeFun(select);
+    },
+    // 图形放大的方法
+    big () {
+      this.graph.zoomIn();
+    },
+    // 图形缩小的方法
+    small () {
+      this.graph.zoomOut();
     }
   },
   mounted () {
     this.init();
     this.connectFun(); // 监听连线事件
+    this.removeEvent();// 监听删除事件
   }
 }
 </script>
