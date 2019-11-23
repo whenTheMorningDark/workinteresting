@@ -8,6 +8,7 @@ import List from './components/list'
 import Icon from './components/icon'
 import Collapse from './components/collapse'
 import Dropdown from "./components/dropdown"
+import mxGraph from "./components/mGraph"
 import "./styles/index.scss"
 Vue.prototype.$utils = utils
 Vue.config.productionTip = false
@@ -20,6 +21,7 @@ Vue.component('Panel', Collapse.Panel)
 Vue.component('Dropdown', Dropdown)
 Vue.component('DropdownMenu', Dropdown.DropdownMenu)
 Vue.component('DropdownItem', Dropdown.DropItem)
+Vue.component('mxGraph', mxGraph)
 new Vue({
   router,
   store,

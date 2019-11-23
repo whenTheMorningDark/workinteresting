@@ -1,0 +1,26 @@
+.mxGraph {
+  width: 100%;
+  height: 100%;
+
+  .toolbar {
+    display: flex;
+    width: 100%;
+    height: 35px;
+    border: 1px solid #dddddd;
+    align-items: center;
+
+    .toolbar-item {
+      width: 25px;
+      height: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+  }
+
+  .container {
+    width: 100%;
+    height: 100%;
+  }
+}
