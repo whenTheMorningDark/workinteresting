@@ -7,7 +7,8 @@
 <script>
 import {
   mxGraph,
-  mxEvent
+  mxEvent,
+  mxGraphView
 } from 'mxgraph/javascript/mxClient'
 export default {
   name: "mxContainer",
@@ -33,6 +34,9 @@ export default {
       this.graph.setConnectable(true); // 设置可以连线
       this.graph.setCellsCloneable(false);// 禁止ctrl生成元素
       this.graph.setAllowDanglingEdges(false);// 不可以随意移动edge
+      this.mxGraphView = new mxGraphView(this.graph)
+      // window['mxGraph'] = mxgraph.mxGraph;
+      // window.mxStylesheet = mxgraph.mxStylesheet
       this.createData()
     },
     // 初始化graphData数据
@@ -45,15 +49,17 @@ export default {
     createData () {
       this.parent = this.graph.getDefaultParent();
       this.graph.getModel().beginUpdate();
-      console.log(this.graphData);
       try {
         for (let i = 0; i < this.graphData.length; i++) {
           let baseOptions = this.graphData[i].options;
           let type = this.graphData[i].type || "";
           let value = this.graphData[i].value || "";
           let id = this.graphData[i].id || null;
+          // let optionsStyle = this.graphData[i].optionsStyle || {}; // 获取额外的样式
           let { x, y, width, height, style } = baseOptions;
-          let verter = this.graph.insertVertex(this.parent, id, value, x, y, width, height, style || "");
+          let isStyle = Object.keys(style).length <= 0; // 如果没有传递样式属性,则使用默认的样式
+          let verter = this.graph.insertVertex(this.parent, id, value, x, y, width, height, isStyle ? "" : this.convertStyleToString(style)); // 生成图形的方法
+          // this.setVeterDefaultStyle(styleNode, optionsStyle); // 设置额外的默认样式
           verter.type = type || "";
           this.graphData[i].id = this.graphData[i].id ? this.graphData[i].id : verter.id;
           this.graphData[i].to = this.graphData[i].to.length > 0 ? this.graphData[i].to : [];
@@ -66,11 +72,11 @@ export default {
             let source = this.findCell(this.graphData[i].id);
             if (arr instanceof Array && arr.length > 0) {
               for (let i = 0; i < arr.length; i++) {
-                let target = this.findCell(arr[i]);
+                let target = this.findCell(arr[i].tId);
                 if (!source || !target) {
                   return;
                 }
-                this.graph.insertEdge(this.parent, null, "", source, target);
+                this.graph.insertEdge(this.parent, null, "", source, target, arr[i].style);
               }
             }
           }
@@ -94,18 +100,70 @@ export default {
     // 监听cell删除事件
     removeEvent () {
       this.graph.addListener(mxEvent.CELLS_REMOVED, (sender, evt) => {
-        // console.log(sender);
-        // console.log(evt);
         let cell = evt.properties.cells;
-        // console.log(cell);
         this.$emit("delEvent", cell);
       });
     },
+    // 设置线条默认的样式
+    setEdgeStyleFun (edge, style) {
+      console.log(edge);
+      // let mxGraphView = new mxGraphView(this.graph);
+      // let eStyle = this.mxGraphView.getEdgeStyle(edge[0]);
+      edge.forEach((v) => {
+        // let currentData = this.graphData.find((v) => v.to.id === v.id);
+
+        let eStyle = this.getEdgeStyle(v)
+        let newStyle = Object.assign(JSON.parse(JSON.stringify(eStyle)), style);
+        v.setStyle(this.convertStyleToString(newStyle));
+        this.graph.refresh(v)
+        // this.graphData.forEach((s) => {
+        //   let currentData = s.to.find((q) => q.id === v.id);
+        //   console.log(currentData);
+        //   Object.assign(currentData.style, style);
+        // })
+      });
+      console.log(this.graphData);
+    },
+    getEdgeStyle (edge) {
+      const style = this.graph.view.getState(edge, true).style;
+      console.log(style);
+      return style;
+    },
+    // 设置图形样式
+    /**
+     * cell 为当前选中的cell对象 类型为 Array
+     * style 改变当前cell的样式 类型为Object {fillColor:"red"}
+     * 
+     * 样式修改 https://jgraph.github.io/mxgraph/javascript/examples/grapheditor/www/index.html
+     * 
+     */
+    setVeterStyle (cell, style) {
+      if (!(cell instanceof Array)) {
+        cell = [cell];
+      }
+      cell.forEach((s) => {
+        let currentData = this.graphData.find((v) => v.id === s.id);
+        Object.assign(currentData.options.style, style);
+        let newStyle = s.style + this.convertStyleToString(style);
+        s.setStyle(newStyle);
+        this.graph.refresh(s);
+      })
+    },
+    convertStyleToString (styleDict) { // 把对象转成字符{strokeColor:color} => strokeColor=color;
+      const style = Object.entries(styleDict)
+        .map(([key, value]) => `${key}=${value}`)
+        .join(";");
+      return `${style};`;
+    },
     // 工具方法
     findCell (id) {
-      const cells = this.graph.getChildVertices(this.graph.getDefaultParent()); // 获取所有的图形
+      const cells = this.findAllCell(); // 获取所有的图形
       let cell = cells.find((v) => v.id === id);
       return cell;
+    },
+    // 获取所有的图形
+    findAllCell () {
+      return this.graph.getChildVertices(this.graph.getDefaultParent());
     },
     // 删除图形的方法,包括cell和edge
     removeFun (cell) {
@@ -114,6 +172,13 @@ export default {
     // 获取选中的元素
     getSelectionCells () {
       return this.graph.getSelectionCells();
+    },
+    // 点击图形
+    clickCell () {
+      this.graph.addListener(mxEvent.CLICK, (sender, evt) => {
+        let cell = evt.getProperty("cell");
+        console.log(cell);
+      });
     },
     // 删除选中的图形
     deleteSelect () {
@@ -135,6 +200,10 @@ export default {
     this.init();
     this.connectFun(); // 监听连线事件
     this.removeEvent();// 监听删除事件
+
+    // this.graph.getStylesheet().putCellStyle(node, style);
+    // this.setEdgeStyleFun(); // 设置线条的样式
+    this.clickCell();
   }
 }
 </script>

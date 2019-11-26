@@ -37,22 +37,47 @@ export default {
   methods: {
     initCell (cell) {
       this.$emit("initCell", cell);
+      // this.$refs.graph.setVeterStyle("startNode");
+    },
+    setVeterDefaultStyle (node, style) {
+      this.$refs.graph.setVeterDefaultStyle(node, style);
+    },
+    getEdgeStyle (edge) {
+      return this.$refs.graph.getEdgeStyle(edge);
+    },
+    setEdgeStyleFun (edge, style) {
+      this.$refs.graph.setEdgeStyleFun(edge, style);
+    },
+    getSelectionCells () {
+      return this.$refs.graph.getSelectionCells();
+    },
+    setVeterStyle (cell, style) {
+      this.$refs.graph.setVeterStyle(cell, style)
     },
     connect (options) {
       const { edge, source, target } = options;
       // 在业务组件中做连线的关系的映射
       let sData = this.graphData.find((v) => v.id === source.id);
       let tData = this.graphData.find((v) => v.id === target.id);
-      let SoureisHave = sData.to.some((v) => v === tData.id);
-      let TargetisHave = tData.to.includes(sData.id);
-      console.log(TargetisHave);
-      if (SoureisHave || TargetisHave) {
-        console.log("不能重复链接");
-        // console.log("不能重复链接"); 此时edges还是已经相连必须把这个连线删除掉
-        this.$refs.graph.removeFun(edge);
-      } else {
-        sData.to.push(tData.id);
+      console.log(edge);
+      console.log(this.getEdgeStyle(edge));
+      let json = {
+        id: edge.id,
+        style: this.getEdgeStyle(edge),
+        tId: tData.id
       }
+      sData.to.push(json);
+      console.log(this.graphData);
+      // let SoureisHave = sData.to.some((v) => v.id === tData.id);
+      // let TargetisHave = tData.to.includes(sData.id);
+      // console.log(TargetisHave);
+      // if (SoureisHave || TargetisHave) {
+      //   console.log("不能重复链接");
+      //   // console.log("不能重复链接"); 此时edges还是已经相连必须把这个连线删除掉
+      //   this.$refs.graph.removeFun(edge);
+      // } else {
+      //   sData.to.push(tData.id);
+      // }
       // sData.to.push(tData.id); // 用to来作为连线关系的标识
       // if(sData)
       this.$emit("connect", options);
