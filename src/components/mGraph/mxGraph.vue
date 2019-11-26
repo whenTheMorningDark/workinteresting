@@ -61,25 +61,31 @@ export default {
       let tData = this.graphData.find((v) => v.id === target.id);
       console.log(edge);
       console.log(this.getEdgeStyle(edge));
-      let json = {
-        id: edge.id,
-        style: this.getEdgeStyle(edge),
-        tId: tData.id
-      }
-      sData.to.push(json);
-      console.log(this.graphData);
-      // let SoureisHave = sData.to.some((v) => v.id === tData.id);
-      // let TargetisHave = tData.to.includes(sData.id);
-      // console.log(TargetisHave);
-      // if (SoureisHave || TargetisHave) {
-      //   console.log("不能重复链接");
-      //   // console.log("不能重复链接"); 此时edges还是已经相连必须把这个连线删除掉
-      //   this.$refs.graph.removeFun(edge);
-      // } else {
-      //   sData.to.push(tData.id);
+      // let json = {
+      //   id: edge.id,
+      //   style: JSON.parse(JSON.stringify(this.getEdgeStyle(edge))),
+      //   tId: tData.id
       // }
+      // sData.to.push(json);
+      let SoureisHave = sData.to.some((v) => v.tId === tData.id);
+      // .some((v) => v.id === tData.id)
+      let TargetisHave = tData.to.some((v) => v.tId === sData.id);
+      // console.log(TargetisHave);
+      if (SoureisHave || TargetisHave) {
+        console.log("不能重复链接");
+        // console.log("不能重复链接"); 此时edges还是已经相连必须把这个连线删除掉
+        this.$refs.graph.removeFun(edge);
+      } else {
+         let json = {
+          id: edge.id,
+          style: JSON.parse(JSON.stringify(this.getEdgeStyle(edge))),
+          tId: tData.id
+        }
+        sData.to.push(json);
+      }
       // sData.to.push(tData.id); // 用to来作为连线关系的标识
       // if(sData)
+      console.log(this.graphData);
       this.$emit("connect", options);
     },
     // 监听删除事件

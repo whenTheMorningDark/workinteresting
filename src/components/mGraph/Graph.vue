@@ -76,7 +76,9 @@ export default {
                 if (!source || !target) {
                   return;
                 }
-                this.graph.insertEdge(this.parent, null, "", source, target, arr[i].style);
+                let edgeStyle = Object.keys(arr[i].style).length <= 0 ? "" : this.convertStyleToString(arr[i].style);
+                console.log(edgeStyle);
+                this.graph.insertEdge(this.parent, arr[i].id || null, "", source, target, edgeStyle);
               }
             }
           }
@@ -104,23 +106,22 @@ export default {
         this.$emit("delEvent", cell);
       });
     },
-    // 设置线条默认的样式
+    // 设置线条(edge)的样式
     setEdgeStyleFun (edge, style) {
-      console.log(edge);
-      // let mxGraphView = new mxGraphView(this.graph);
-      // let eStyle = this.mxGraphView.getEdgeStyle(edge[0]);
       edge.forEach((v) => {
-        // let currentData = this.graphData.find((v) => v.to.id === v.id);
-
         let eStyle = this.getEdgeStyle(v)
         let newStyle = Object.assign(JSON.parse(JSON.stringify(eStyle)), style);
         v.setStyle(this.convertStyleToString(newStyle));
         this.graph.refresh(v)
-        // this.graphData.forEach((s) => {
-        //   let currentData = s.to.find((q) => q.id === v.id);
-        //   console.log(currentData);
-        //   Object.assign(currentData.style, style);
-        // })
+        this.graphData.forEach((s)=>{
+          let to = s.to;
+          if(to.length > 0) {
+            let currentEdge = to.find((d)=>d.id === v.id);
+            if(currentEdge) {
+              Object.assign(currentEdge.style,style);
+            }
+          }
+        })
       });
       console.log(this.graphData);
     },
