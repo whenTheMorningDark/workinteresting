@@ -75,6 +75,20 @@ const utils = {
       }
     }
     return parent;
+  },
+  // 将对象数组去重,根据某个属性字段来去重
+  /*
+    @ params arr 去重的数组
+    @ String string 去重的字段
+  */
+  uniqeObjectArr(arr, string) {
+    let hash = {};
+    arr = arr.reduce((item, next) => {
+      hash[next[string]] ? '' : hash[next[string]] = true && item.push(next);
+      return item
+    }, [])
+    return arr;
   }
+
 }
 export default utils

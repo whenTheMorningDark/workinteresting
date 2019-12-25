@@ -7,6 +7,7 @@
     <mxGraph :graphData="graphData"
              @initCell="initCell"
              @connect="connect"
+             :connectRules="rules"
              ref="mxGraph"></mxGraph>
   </div>
 </template>
@@ -56,6 +57,14 @@ export default {
         strokeColor: "yellow"
       }
       this.$refs.mxGraph.setEdgeStyleFun(edge, style);
+    },
+    rules (source, target) {
+      console.log(source);
+      console.log(target);
+      if (target.type === "end") {
+        return false;
+      }
+      return true;
     }
   }
 };

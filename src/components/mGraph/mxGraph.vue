@@ -6,6 +6,7 @@
            @initCell="initCell"
            @connect="connect"
            @delEvent="delEvent"
+           :rules="rules"
            ref="graph"></Graph>
   </div>
 </template>
@@ -27,6 +28,10 @@ export default {
       default: () => {
         return []
       }
+    },
+    connectRules: {
+      type: Function,
+      default: () => true
     }
   },
   // computed: {
@@ -54,37 +59,35 @@ export default {
     setVeterStyle (cell, style) {
       this.$refs.graph.setVeterStyle(cell, style)
     },
+    rules (source, target) {
+      let sData = this.graphData.find((v) => v.id === source.id);
+      let tData = this.graphData.find((v) => v.id === target.id);
+      if (!sData || !tData) {
+        return;
+      }
+      let SoureisHave = sData.to.some((v) => v.tId === tData.id);
+      let TargetisHave = tData.to.some((v) => v.tId === sData.id);
+      if (SoureisHave || TargetisHave) {
+        return false;
+      }
+      if (this.connectRules) {
+        return this.connectRules(source, target);
+      }
+      return true;
+      // let SoureisHave = sData.to.some((v) => v.tId === tData.id);
+      // let TargetisHave = tData.to.some((v) => v.tId === sData.id);
+    },
     connect (options) {
       const { edge, source, target } = options;
       // 在业务组件中做连线的关系的映射
       let sData = this.graphData.find((v) => v.id === source.id);
       let tData = this.graphData.find((v) => v.id === target.id);
-      console.log(edge);
-      console.log(this.getEdgeStyle(edge));
-      // let json = {
-      //   id: edge.id,
-      //   style: JSON.parse(JSON.stringify(this.getEdgeStyle(edge))),
-      //   tId: tData.id
-      // }
-      // sData.to.push(json);
-      let SoureisHave = sData.to.some((v) => v.tId === tData.id);
-      // .some((v) => v.id === tData.id)
-      let TargetisHave = tData.to.some((v) => v.tId === sData.id);
-      // console.log(TargetisHave);
-      if (SoureisHave || TargetisHave) {
-        console.log("不能重复链接");
-        // console.log("不能重复链接"); 此时edges还是已经相连必须把这个连线删除掉
-        this.$refs.graph.removeFun(edge);
-      } else {
-         let json = {
-          id: edge.id,
-          style: JSON.parse(JSON.stringify(this.getEdgeStyle(edge))),
-          tId: tData.id
-        }
-        sData.to.push(json);
+      let json = {
+        id: edge.id,
+        style: JSON.parse(JSON.stringify(this.getEdgeStyle(edge))),
+        tId: tData.id
       }
-      // sData.to.push(tData.id); // 用to来作为连线关系的标识
-      // if(sData)
+      sData.to.push(json);
       console.log(this.graphData);
       this.$emit("connect", options);
     },

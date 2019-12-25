@@ -18,6 +18,10 @@ export default {
       default: () => {
         return []
       }
+    },
+    rules: {
+      type: Function,
+      default: () => true
     }
   },
   data () {
@@ -113,12 +117,12 @@ export default {
         let newStyle = Object.assign(JSON.parse(JSON.stringify(eStyle)), style);
         v.setStyle(this.convertStyleToString(newStyle));
         this.graph.refresh(v)
-        this.graphData.forEach((s)=>{
+        this.graphData.forEach((s) => {
           let to = s.to;
-          if(to.length > 0) {
-            let currentEdge = to.find((d)=>d.id === v.id);
-            if(currentEdge) {
-              Object.assign(currentEdge.style,style);
+          if (to.length > 0) {
+            let currentEdge = to.find((d) => d.id === v.id);
+            if (currentEdge) {
+              Object.assign(currentEdge.style, style);
             }
           }
         })
@@ -155,6 +159,10 @@ export default {
         .map(([key, value]) => `${key}=${value}`)
         .join(";");
       return `${style};`;
+    },
+    // 检验规则
+    setConnectValidation () {
+      mxGraph.prototype.isValidConnection = (source, target) => this.rules(source, target);
     },
     // 工具方法
     findCell (id) {
@@ -205,6 +213,7 @@ export default {
     // this.graph.getStylesheet().putCellStyle(node, style);
     // this.setEdgeStyleFun(); // 设置线条的样式
     this.clickCell();
+    this.setConnectValidation();
   }
 }
 </script>
