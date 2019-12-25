@@ -16,24 +16,8 @@ export default {
     };
   },
   mounted () {
-    var arr = [{
-      "name": "ZYTX",
-      "age": "Y13xG_4wQnOWK1QwJLgg11d0pS4hewePU95UHtpMl3eE81uS74NC-6zu-Rtnw4Ix",
-      "gender": "AAAAAA.doc"
-    }, {
-      "name": "ZYTA",
-      "age": "Y13xG_4wQnOWK1QwJLgg11d0pS4hewePU95UHtpMl3eE81uS74NC-6zu-Rtnw4Ix",
-      "gender": "BBBBBB.doc"
-    }, {
-      "name": "ZDTX",
-      "age": "Y13xG_4wQnOWK1QwJLgg11d0pS4hewePU95UHtpMl3eE81uS74NC-6zu-Rtnw4Ix",
-      "gender": "CCCCCC.doc"
-    }, {
-      "name": "ZYTX",
-      "age": "Y13xG_4wQnOWK1QwJLgg11d0pS4hewePU95UHtpMl3eE81uS74NC-6zu-Rtnw4Ix",
-      "gender": "AAAAAA.doc"
-    }];
-    console.log(this.$utils.uniqeObjectArr(arr, "name"));
+    // let num = [10, 20];
+    console.log(this.$utils.flatten(['a', ['b', ['c', ['q', 's']]], 'd', ['e']]));
   }
 };
 </script>

@@ -88,6 +88,33 @@ const utils = {
       return item
     }, [])
     return arr;
+  },
+  // 对象转换成字符串
+  ObjToStr(val) {
+    return Object.prototype.toString.call(val);
+  },
+  // 判断是不是数组
+  isArr(val) {
+    return Array.isArray(val) || this.ObjToStr(val) === '[object Array]';
+  },
+  // 扁平化数组
+  /**
+   * flatten(['a', ['b', ['c']], 'd', ['e']]); // -> ['a', 'b', 'c', 'd', 'e']
+   * 
+   */
+  flatten(arr) {
+    return this.curflatten(arr, []);
+  },
+  curflatten(arr, res) { // arr 初始数组 res 结果数组
+    let len = arr.length
+    let i = -1;
+    let cur;
+    while (len) {
+      len--;
+      cur = arr[++i];
+      this.isArr(cur) ? this.curflatten(cur, res) : res.push(cur); // 递归解构数组
+    }
+    return res;
   }
 
 }
