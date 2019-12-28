@@ -19,13 +19,15 @@ export default {
   mounted () {
     // let num = [10, 20];
     // console.log(this.$utils.flatten(['a', ['b', ['c', ['q', 's']]], 'd', ['e']]));
-    console.log(new Date("2016-12-13").getTime());
+    // console.log(new Date("2016-12-13").getTime());
     // console.log(Date.now())
     // 1577327725564
     // console.log(new Date(1560312000000).toLocaleString())
     // console.log(this.$utils.ObjToStr(1));
     // console.log(!isNaN("1a"))
-    console.log(this.$utils.format("2016-12-13"));
+    // console.log(this.$utils.format("2016-12-13"));
+    let arr = [1, 2, 4, 5, 2];
+    console.log(this.$utils.unique(arr));
   }
 };
 </script>

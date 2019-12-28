@@ -11,7 +11,7 @@ const utils = {
     let timeout;
     let start = new Date();
     threshhold = threshhold || 160;
-    return function() {
+    return function () {
       const curr = new Date() - 0;
       clearTimeout(timeout);
       if (curr - start >= threshhold) {
@@ -44,17 +44,17 @@ const utils = {
    * 
    */
   getBase64(file) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       let reader = new FileReader();
       let imgResult = "";
       reader.readAsDataURL(file);
-      reader.onload = function() {
+      reader.onload = function () {
         imgResult = reader.result;
       };
-      reader.onerror = function(error) {
+      reader.onerror = function (error) {
         reject(error);
       };
-      reader.onloadend = function() {
+      reader.onloadend = function () {
         resolve(imgResult);
       };
     });
@@ -155,6 +155,21 @@ const utils = {
     if (hourC >= 1) return parseInt(hourC) + "个小时前";
     if (minC >= 1) return parseInt(minC) + "分钟前";
     if (minC < 1) return "刚刚";
+  },
+  // 数组去重
+  unique(arr, compare) {
+    // console.log(this.isArr(arr))
+    if (!this.isArr(arr)) {
+      return []
+    }
+    compare = compare || this.isEqual();
+    return arr.filter((item, index) => {
+      return arr.indexOf(item) === index;
+    })
+  },
+  // 默认相等的函数
+  isEqual(a, b) {
+    return a === b;
   }
 };
 export default utils;
