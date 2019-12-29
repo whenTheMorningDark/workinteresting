@@ -1,9 +1,8 @@
 <template>
   <div class="mxHome">
     <Button type="primary"
-            @click="addImg">加图片</Button>
-    <Button type="primary"
-            @click="changColor">变黄色</Button>
+            @click="undoFun">回撤</Button>
+
     <mxGraph :graphData="graphData"
              @initCell="initCell"
              @connect="connect"
@@ -65,6 +64,11 @@ export default {
         return false;
       }
       return true;
+    },
+    // 回撤事件
+    undoFun () {
+      console.log("asd");
+      this.$refs.mxGraph.undoFun();
     }
   }
 };

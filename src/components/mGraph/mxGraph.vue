@@ -142,7 +142,10 @@ export default {
       } else {
         this.$emit("handClick", item);
       }
-
+    },
+    // 回退事件
+    undoFun () {
+      this.$refs.graph.undoFun();
     }
   },
   components: {

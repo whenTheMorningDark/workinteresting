@@ -36,7 +36,6 @@ export default {
   },
   methods: {
     handleClick (ev) {
-      console.log("dianji");
       this.$emit("click", ev)
     }
   }

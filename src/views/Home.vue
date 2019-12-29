@@ -16,6 +16,11 @@ export default {
 
     };
   },
+  methods: {
+    func (a, b) {
+      return a.name === b.name
+    }
+  },
   mounted () {
     // let num = [10, 20];
     // console.log(this.$utils.flatten(['a', ['b', ['c', ['q', 's']]], 'd', ['e']]));
@@ -26,7 +31,13 @@ export default {
     // console.log(this.$utils.ObjToStr(1));
     // console.log(!isNaN("1a"))
     // console.log(this.$utils.format("2016-12-13"));
-    let arr = [1, 2, 4, 5, 2];
+    let arr = [1, 2, 4, 5, 2, 5, 7, 7];
+    // let arr = [
+    //   { name: "a" },
+    //   { name: "b" },
+    //   { name: "c" },
+    //   { name: "a" }
+    // ]
     console.log(this.$utils.unique(arr));
   }
 };

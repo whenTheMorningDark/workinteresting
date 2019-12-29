@@ -10,8 +10,10 @@ import {
   mxEvent,
   mxGraphView
 } from 'mxgraph/javascript/mxClient'
+import event from "./event";
 export default {
   name: "mxContainer",
+  mixins: [event],
   props: {
     graphData: {
       type: Array,
@@ -214,6 +216,8 @@ export default {
     // this.setEdgeStyleFun(); // 设置线条的样式
     this.clickCell();
     this.setConnectValidation();
+    // 初始化undoManager对象 undo redo事件对象
+    this.initUndoManager();
   }
 }
 </script>

@@ -158,13 +158,16 @@ const utils = {
   },
   // 数组去重
   unique(arr, compare) {
-    // console.log(this.isArr(arr))
-    if (!this.isArr(arr)) {
+    if (!Array.isArray(arr)) {
       return []
     }
-    compare = compare || this.isEqual();
+    compare = compare || this.isEqual;
     return arr.filter((item, index) => {
-      return arr.indexOf(item) === index;
+      const len = arr.length;
+      while (++index < len) {
+        if (compare(item, arr[index])) return false;
+      }
+      return true
     })
   },
   // 默认相等的函数
