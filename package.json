@@ -10,16 +10,17 @@
   "dependencies": {
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-vue": "^2.0.2",
+    "bezier-easing": "^2.1.0",
     "core-js": "^2.6.5",
     "eslint-plugin-flow-vars": "^0.5.0",
     "eslint-plugin-html": "^6.0.0",
+    "mxgraph": "^3.9.12",
     "node-sass": "^4.12.0",
     "popper.js": "^1.16.0",
     "sass-loader": "^7.3.1",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
-    "vuex": "^3.0.1",
-    "mxgraph": "^3.9.12"
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.11.0",

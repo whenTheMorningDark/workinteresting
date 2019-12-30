@@ -1,10 +1,12 @@
 <template>
   <div class="home">
-
-    home
-    <!-- <mxGraph :graphData="graphData"
-             @initCell="initCell"
-             @connect="connect"></mxGraph> -->
+    <AwesomeProgress circle-color="#e5e9f2"
+                     :circle-width="4"
+                     :line-width="10"
+                     :circle-radius="60"
+                     :point-radius="0"
+                     :start-deg="90"
+                     :percentage="50" />
   </div>
 </template>
 <script>
@@ -20,25 +22,6 @@ export default {
     func (a, b) {
       return a.name === b.name
     }
-  },
-  mounted () {
-    // let num = [10, 20];
-    // console.log(this.$utils.flatten(['a', ['b', ['c', ['q', 's']]], 'd', ['e']]));
-    // console.log(new Date("2016-12-13").getTime());
-    // console.log(Date.now())
-    // 1577327725564
-    // console.log(new Date(1560312000000).toLocaleString())
-    // console.log(this.$utils.ObjToStr(1));
-    // console.log(!isNaN("1a"))
-    // console.log(this.$utils.format("2016-12-13"));
-    let arr = [1, 2, 4, 5, 2, 5, 7, 7];
-    // let arr = [
-    //   { name: "a" },
-    //   { name: "b" },
-    //   { name: "c" },
-    //   { name: "a" }
-    // ]
-    console.log(this.$utils.unique(arr));
   }
 };
 </script>
