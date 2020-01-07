@@ -11,6 +11,7 @@ import BezierEasing from "bezier-easing";
 export default {
   name: "awesomeProgress",
   props: {
+    // 进度圆开始的角度
     startDeg: {
       type: Number,
       default: 270,
@@ -18,6 +19,7 @@ export default {
         return value >= 0 && value < 360
       }
     },
+    // 进度圆的百分比
     percentage: {
       type: Number,
       default: 0,
@@ -25,18 +27,22 @@ export default {
         return value >= 0 && value <= 100
       }
     },
+    // 底部圆的半径
     circleRadius: {
       type: Number,
       default: 40
     },
+    // 底部圆的线条宽度
     circleWidth: {
       type: Number,
       default: 2
     },
+    // 底部圆的颜色
     circleColor: {
       type: String,
       default: '#e5e5e5'
     },
+    // 进度圆的线条宽度
     lineWidth: {
       type: Number,
       default: 8
@@ -49,6 +55,7 @@ export default {
       type: String,
       default: '#3B77E3'
     },
+    // 渐变色的数组
     lineColorStops: {
       type: Array,
       default: function () {
@@ -70,18 +77,22 @@ export default {
       type: String,
       default: '#3B77E3'
     },
+    // 进度圆小球上的半径
     pointRadius: {
       type: Number,
       default: 6
     },
+    // 进度圆小球上的颜色
     pointColor: {
       type: String,
       default: '#3B77E3'
     },
+    // 是否启用动画
     animated: {
       type: Boolean,
       default: true
     },
+    // 动画函数
     easing: {
       type: String,
       // ease-in
@@ -90,6 +101,7 @@ export default {
         return /^(\d+(\.\d+)?,){3}\d+(\.\d+)?$/.test(value)
       }
     },
+    // 时长
     duration: {
       type: Number,
       // 浏览器大约是60FPS，因此1s大约执行60次requestAnimationFrame
@@ -227,6 +239,7 @@ export default {
     },
     // // 根据角度获取点的位置
     getPositionsByDeg (deg) {
+      console.log(deg)
       let x = 0;
       let y = 0;
       if (deg >= 0 && deg <= 90) {
