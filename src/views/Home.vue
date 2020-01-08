@@ -1,29 +1,23 @@
 <template>
   <div class="home">
-    <AwesomeProgress circle-color="#e5e9f2"
-                     :circle-width="4"
-                     :line-width="10"
-                     :circle-radius="60"
-                     :start-deg="0"
-                     :percentage="100" />
+    <Table></Table>
 
   </div>
 </template>
 <script>
 export default {
   name: "home",
-  components: {},
+  components: {
+
+  },
   data () {
     return {
-      animated: false
+
     };
   },
   methods: {
-    func (a, b) {
-      return a.name === b.name
-    },
-    formatPeople (percentage) {
-      return Math.round(percentage / 100 * 7000) + '人'
+    handClick (obj, index) {
+      console.log(obj, index)
     }
   }
 };

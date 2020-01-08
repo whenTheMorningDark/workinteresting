@@ -1,5 +1,26 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <ul>
+      <li v-for="book in books"
+          :key="book.id">
+        <slot :book="book"
+              :index="book.id">
+          <!-- 默认内容 -->
+          {{ book.name }}
+        </slot>
+      </li>
+    </ul>
   </div>
 </template>
+<script>
+export default {
+  props: {
+    books: {
+      type: Array,
+      default: () => {
+        return []
+      }
+    }
+  }
+}
+</script>

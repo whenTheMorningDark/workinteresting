@@ -10,6 +10,7 @@ import Collapse from './components/collapse'
 import Dropdown from "./components/dropdown"
 import mxGraph from "./components/mGraph"
 import AwesomeProgress from "./components/awesomeProgress"
+import Table from "./components/table"
 import "./styles/index.scss"
 Vue.prototype.$utils = utils
 Vue.config.productionTip = false
@@ -24,6 +25,7 @@ Vue.component('DropdownMenu', Dropdown.DropdownMenu)
 Vue.component('DropdownItem', Dropdown.DropItem)
 Vue.component('mxGraph', mxGraph)
 Vue.component('AwesomeProgress', AwesomeProgress)
+Vue.component('Table', Table)
 new Vue({
   router,
   store,
