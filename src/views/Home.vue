@@ -1,12 +1,13 @@
 <template>
   <div class="home">
-    <Table :columns="columns"
+    <!-- <Table :columns="columns"
            :data="data">
       <template slot-scope="{row,index}"
                 slot="action">
         <Button @click="handClick(row,index)">操作</Button>
       </template>
-    </Table>
+    </Table> -->
+    <Button @click="handClick">操作</Button>
 
   </div>
 </template>
@@ -69,8 +70,11 @@ export default {
     }
   },
   methods: {
-    handClick (row, index) {
-      console.log(row, index)
+    handClick () {
+      // console.log(this.$Message)
+      this.$Message.info({
+        content: "666"
+      })
     }
   }
 };
