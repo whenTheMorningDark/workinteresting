@@ -11,6 +11,7 @@ import Dropdown from "./components/dropdown"
 import mxGraph from "./components/mGraph"
 import AwesomeProgress from "./components/awesomeProgress"
 import Table from "./components/table"
+import Message from "./components/message"
 import "./styles/index.scss"
 Vue.prototype.$utils = utils
 Vue.config.productionTip = false
@@ -26,6 +27,7 @@ Vue.component('DropdownItem', Dropdown.DropItem)
 Vue.component('mxGraph', mxGraph)
 Vue.component('AwesomeProgress', AwesomeProgress)
 Vue.component('Table', Table)
+Vue.prototype.$Message = Message;
 new Vue({
   router,
   store,
