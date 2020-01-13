@@ -76,7 +76,11 @@ export default {
         content: "666"
       })
     }
-  }
+  },
+  mounted () {
+    // let reg = new RegExp('a');
+    console.log(this.$utils.isRegExp("a"))
+  },
 };
 </script>
 <style lang="scss" scoped>

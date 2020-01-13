@@ -173,6 +173,17 @@ const utils = {
   // 默认相等的函数
   isEqual(a, b) {
     return a === b;
+  },
+  // 判断是否是正则对象
+  isRegExp(val) {
+    return this.ObjToStr(val) === "[object RegExp]"
+  },
+  // 判断是否是空对象
+  isEmpty(obj) {
+    for (let key in obj) {
+      return false;
+    }
+    return true;
   }
 };
 export default utils;
