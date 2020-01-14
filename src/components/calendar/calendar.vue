@@ -1,37 +1,46 @@
 <template>
   <div class="calendar"
-       ref="calendar">
-    <div class="calendar-header">
-      <div class="calendar-header-time">
-        {{currentTime.hour}}:{{formatDate(currentTime.minute)}}:{{formatDate(currentTime.second)}}
+       ref="calendar"
+       v-click-outside>
+    <input type="text"
+           :value="formaDate">
+    <div class="panel"
+         v-if="isVisible">
+      <div class="panel-nav">
+        <span>&lt;</span>
+        <span @click="prevMonth">&lt;&lt;</span>
+        <span>{{time.year}}年</span>
+        <span>{{time.month+1}}月</span>
+        <span @click="nextMonth">&gt;&gt;</span>
+        <span>&gt;</span>
       </div>
-      <div class="calendar-header-date">
-        {{currentTime.year}}年{{currentTime.month}}月{{currentTime.day}}日
-      </div>
-    </div>
-    <div class="calendar-container"
-         v-if='cShowCalendar'>
-      <div class="calendar-container-header">
-        <span class="calendar-container-header-date">
-          2020年1月13日
-        </span>
-        <i class='cai-icon-up'>上</i>
-        <i class='cai-icon-down'>下</i>
-        <span class='container-header-today'>今天</span>
-      </div>
-      <div class="calendar-week">
-        <div v-for="(item, index) in calendarTitleArr"
-             :key="index"
-             class="week-item">{{item}}</div>
-        <div class="calendar-week">
-          <div v-for="(item, index) in calendarList"
-               :key="index"
-               class="week-item date-item"
-               :class='[{today:isCurrentDay(item.date)}]'
-               @click='chooseDate(item)'>
-            <span>{{item.day}}</span>
+      <div class="panel-content">
+        <div class="days">
+          <span v-for="j in 7"
+                :key="'_'+j"
+                class="cell">
+            {{weekDays[j-1]}}
+          </span>
+          <!-- {{visibeDays}} -->
+          <div v-for="i in 6"
+               :key="i">
+            <span v-for="j in 7"
+                  :key="j"
+                  class="cell cell-days"
+                  @click="chooseDate(visibeDays[(i-1)*7+(j-1)])"
+                  :class="[
+                    {notCurrentMonth:!isCurrentMonth(visibeDays[(i-1)*7+(j-1)])},
+                    {today:isToday(visibeDays[(i-1)*7+(j-1)])},
+                    {select:isSelect(visibeDays[(i-1)*7+(j-1)])}
+                  ]">
+              {{visibeDays[(i-1)*7+(j-1)].getDate()}}
+            </span>
           </div>
+
         </div>
+      </div>
+      <div class="panel-footer">
+        今天
       </div>
     </div>
   </div>
@@ -41,67 +50,102 @@
 import * as utils from "./utils";
 export default {
   name: 'calendar',
-  props: {
-    showCalendar: { // 是否显示日历
-      type: Boolean,
-      default: false
+  directives: {
+    clickOutside: {
+      bind (el, bindings, vnode) {
+        let handler = (e) => {
+          if (el.contains(e.target)) {
+            if (!vnode.context.isVisible) {
+              vnode.context.focus()
+            }
+          } else {
+            if (vnode.context.isVisible) {
+              vnode.context.blur()
+            }
+          }
+        }
+        el.handler = handler;
+        document.addEventListener("click", handler)
+      }
     }
   },
-  computed: {
-    cShowCalendar () {
-      return this.showCalendar;
+  props: {
+    value: { // 是否显示日历
+      type: Date,
+      default: () => new Date()
     }
   },
   data () {
+    let { year, month } = utils.getNewDate(this.value)
     return {
-      calendarTitleArr: [
-        'MON',
-        'TUE',
-        'WED',
-        'THU',
-        'FRI',
-        'SAT',
-        'SUN '
-      ],
-      calendarList: [],
-      currentTime: {}
-    }
-  },
-  methods: {
-    handleNowData () { // 获取当前时间
-      let { year, month, day, hour, minute, second } = utils.getNewDate(new Date())
-      this.currentTime = { year, month, day, hour, minute, second };
-    },
-    // 格式化日期 个人数日期以 0X 的格式显示
-    formatDate (date) {
-      date = Number(date)
-      return date < 10 ? `0${date}` : date
-    },
-    turnCalendar () {
-      this.visibleCalendar(this.currentTime.year, this.currentTime.month); // 加载日历
-      this.showCalendar = true;
-    },
-    // 加载日历
-    visibleCalendar (year, month) {
-      let obj = utils.getNewDate(utils.getDate(year, month, 1));
-      console.log(obj);
-
+      isVisible: false,
+      weekDays: ["日", "一", "二", "三", "四", "五", "六"],
+      time: {
+        year,
+        month
+      }
     }
   },
   mounted () {
-    this.handleNowData()
-    this.interval = setInterval(() => {
-      this.handleNowData()
-    }, 1000)
   },
-  watch: {
-    cShowCalendar (nVal) {
-      if (nVal) {
-        console.log("切换");
-        this.turnCalendar(); // 切换日历
+  computed: {
+    visibeDays () {
+      // 获取当前是周几
+      let { year, month } = utils.getNewDate(utils.getDate(this.time.year, this.time.month, 1))
+      let currentFirstDay = utils.getDate(year, month, 1);
+      let week = currentFirstDay.getDay();
+      let startDat = currentFirstDay - week * 60 * 60 * 1000 * 24
+      let arr = [];
+      for (let i = 0; i < 42; i++) {
+        arr.push(new Date(startDat + i * 60 * 60 * 1000 * 24))
       }
+      return arr;
+    },
+    formaDate () {
+      let { year, month, day } = utils.getNewDate(this.value)
+      // return this.value;
+      return `${year}-${month + 1}-${day}`
+    }
+  },
+  methods: {
+    focus () {
+      this.isVisible = true;
+    },
+    blur () {
+      this.isVisible = false;
+    },
+    isCurrentMonth (date) {
+      let { year, month } = utils.getNewDate(utils.getDate(this.time.year, this.time.month, 1));
+      let { year: y, month: m } = utils.getNewDate(date);
+      return year === y && month === m;
+    },
+    isToday (date) {
+      let { year, month, day } = utils.getNewDate(new Date());
+      let { year: y, month: m, day: d } = utils.getNewDate(date);
+      return year === y && month === m && day === d;
+    },
+    chooseDate (date) {
+      this.time = utils.getNewDate(date);
+      this.$emit("input", date)
+      this.blur()
+    },
+    isSelect (date) {
+      let { year, month, day } = utils.getNewDate(this.value);
+      let { year: y, month: m, day: d } = utils.getNewDate(date);
+      return year === y && month === m && day === d;
+    },
+    prevMonth () {
+      let d = utils.getDate(this.time.year, this.time.month, 1);
+      d.setMonth(d.getMonth() - 1)
+      this.time = utils.getNewDate(d);
+    },
+    nextMonth () {
+      let d = utils.getDate(this.time.year, this.time.month, 1);
+      d.setMonth(d.getMonth() + 1)
+      this.time = utils.getNewDate(d);
     }
   }
+
 }
 </script>
 

@@ -1,8 +1,6 @@
 <template>
   <div class="home">
-    <Calendar v-calendarDrag
-              @headerEvent="headerEvent"
-              :showCalendar="showCalendar"></Calendar>
+    <Calendar v-model="value"></Calendar>
 
   </div>
 </template>
@@ -16,7 +14,8 @@ export default {
   },
   data () {
     return {
-      showCalendar: false
+      showCalendar: false,
+      value: new Date("2020-1-1")
     }
   },
   methods: {
@@ -28,9 +27,9 @@ export default {
     },
     headerEvent (type) {
       console.log(type);
-      if (type === "click") {
-        this.showCalendar = !this.showCalendar;
-      }
+      // if (type === "click") {
+      //   this.showCalendar = !this.showCalendar;
+      // }
     }
   },
   mounted () {
