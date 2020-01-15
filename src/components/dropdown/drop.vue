@@ -9,6 +9,7 @@
 import Vue from 'vue';
 const isServer = Vue.prototype.$isServer;
 const Popper = isServer ? function () { } : require('popper.js/dist/umd/popper.js');  // eslint-disable-line
+import { transferIndex, transferIncrease } from "../base/notification/transfer-queue";
 export default {
   name: "Drop",
   props: {
@@ -18,15 +19,23 @@ export default {
     placement: {
       type: String,
       default: 'bottom-start'
+    },
+    transfer: {
+      type: Boolean
     }
   },
   data () {
     return {
       popper: null,
-      popperStatus: false
+      popperStatus: false,
+      tIndex: this.handleGetIndex()
     }
   },
   methods: {
+    handleGetIndex () {
+      transferIncrease();
+      return transferIndex;
+    },
     update () {
       // console.log(isServer);
       // console.log(Popper);

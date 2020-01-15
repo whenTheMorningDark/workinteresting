@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-    <Calendar v-model="value"></Calendar>
+    <!-- <Calendar v-model="value"></Calendar> -->
+    <DatePicker></DatePicker>
 
   </div>
 </template>
