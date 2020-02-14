@@ -1,0 +1,11 @@
+.ivu-picker-panelbody {
+  // float: left;
+  overflow: hidden;
+
+  .ivu-date-picker-header {
+    height: 32px;
+    line-height: 32px;
+    // text-align: center;
+    border-bottom: 1px solid #e8eaec;
+  }
+}

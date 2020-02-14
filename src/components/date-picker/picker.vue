@@ -13,8 +13,10 @@
           :class="{[prefixCls+'-transfer']:transfer}"
           :placement="placement"
           ref="drop">
-      <div ref="pickerPanel">
-        123
+      <div>
+        <component :is="panel"
+                   ref="pickerPanel"
+                   :visible="visible"></component>
       </div>
     </Drop>
   </div>
@@ -93,8 +95,8 @@ export default {
         return;
       }
       if (this.visible) {
-        // const pickerPanel = this.$refs.pickerPanel && this.$refs.pickerPanel.$el;
-        const pickerPanel = this.$refs.pickerPanel;
+        const pickerPanel = this.$refs.pickerPanel && this.$refs.pickerPanel.$el;
+        // const pickerPanel = this.$refs.pickerPanel;
         if (e && pickerPanel && pickerPanel.contains(e.target)) return; // its a click inside own component, lets ignore it.
         this.visible = false;
         e && e.preventDefault();

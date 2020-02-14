@@ -1,16 +1,23 @@
 import Picker from "../picker";
-
+import DatePickerPanel from "../panel/Date/date";
 export default {
   name: "CalenDarPicker",
   mixins: [Picker],
-  computed: {
-    panel() {
-      return "xxxxs";
+  props: {
+    type: {
+      default: "date"
     }
   },
-  data() {
-    return {
-      s: "asdasda"
+  components: {
+    DatePickerPanel
+  },
+  computed: {
+    panel() {
+      const isRange = this.type === 'daterange' || this.type === 'datetimerange';
+      return isRange ? 'RangeDatePickerPanel' : 'DatePickerPanel';
+    },
+    ownPickerProps() {
+      return this.options;
     }
   }
 }
