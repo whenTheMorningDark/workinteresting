@@ -13,9 +13,8 @@
             :key="col.id">
           <template v-if="'slot' in col">
             <SlotScope :row="row"
-                  :column="col"
-                  :index="rowIndex"
-                  ></SlotScope>
+                       :column="col"
+                       :index="rowIndex"></SlotScope>
           </template>
           <template v-else>
             {{row[col.key]}}
@@ -26,7 +25,7 @@
   </table>
 </template>
 <script>
-import SlotScope from './slot.js'; 
+import SlotScope from './slot.js';
 export default {
   name: "ka-table",
   props: {
@@ -43,12 +42,12 @@ export default {
       }
     }
   },
-  provide(){
+  provide () {
     return {
-      tableRoot:this
+      tableRoot: this
     }
   },
-  components:{
+  components: {
     SlotScope
   }
 }

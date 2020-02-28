@@ -1,6 +1,5 @@
 export default {
   functional: true, // 无状态组件
-  inject: ["tableRoot"],
   props: {
     row: Object,
     column: Object,
@@ -8,13 +7,16 @@ export default {
   },
   render: (h, ctx) => {
     console.log(ctx);
+    // console.log(ctx.injections.tableRoot.$scopedSlots[ctx.props.column.slot]({
+    //   row: ctx.props.row,
+    //   column: ctx.props.column,
+    //   index: ctx.props.index
+    // }))
     return h(
-      "div",
-      ctx.injections.tableRoot.$scopedSlots[ctx.props.column.slot]({
-        row: ctx.props.row,
-        column: ctx.props.column,
-        index: ctx.props.index
-      })
-    );
+      "div", {
+        style: {
+          color: "red"
+        }
+      }, "asddsa");
   }
 };

@@ -14,6 +14,7 @@ import Table from "./components/table"
 import Message from "./components/message"
 import Calendar from "./components/calendar"
 import DatePicker from "./components/date-picker"
+import editTabs from "./components/editTab"
 import "./styles/index.scss"
 Vue.prototype.$utils = utils
 Vue.config.productionTip = false
@@ -31,6 +32,8 @@ Vue.component('AwesomeProgress', AwesomeProgress)
 Vue.component('Table', Table)
 Vue.component('Calendar', Calendar)
 Vue.component('DatePicker', DatePicker)
+Vue.component('editTabs', editTabs)
+Vue.component('Tab', editTabs.Tab)
 Vue.prototype.$Message = Message;
 new Vue({
   router,
